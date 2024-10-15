@@ -14,7 +14,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="department">Departemen:</label>
-                                    <select name="department" class="form-control">
+                                    <select name="department" class="form-select">
                                         <option value="">Semua Departemen</option>
                                         <!-- Daftar departemen diisi dengan data dari model -->
                                         <?php foreach ($departments as $dept) : ?>
@@ -27,7 +27,7 @@
                                 <div class="form-group">
                                     <label for="year">Tahun:</label>
                                     <div class="input-group">
-                                        <select name="year" class="form-control">
+                                        <select name="year" class="form-select">
                                             <!-- Daftar tahun diisi dengan rentang tahun yang relevan -->
                                             <?php for ($i = date('Y'); $i >= 2000; $i--) : ?>
                                                 <option value="<?= $i; ?>" <?= $i == $selectedYear ? 'selected' : ''; ?>><?= $i; ?></option>
@@ -63,11 +63,11 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>Nama Perangkat</th>
-                            <th>Tanggal Pemeliharaan</th>
-                            <th>Hasil</th>
-                            <th>Keterangan</th>
-                            <th>User</th>
+                            <th style="width: 15%;">Nama Perangkat</th>
+                            <th style="width: 10%;">Tanggal Pemeliharaan</th>
+                            <th style="width: 25%;">Hasil</th>
+                            <th style="width: 25%;">Keterangan</th>
+                            <th style="width: 10%;">User</th>
                         </tr>
                     </thead>
                     <tbody>
