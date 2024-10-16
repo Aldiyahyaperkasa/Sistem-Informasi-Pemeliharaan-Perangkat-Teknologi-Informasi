@@ -47,7 +47,12 @@ class PenggunaController extends Controller
             'role' => $this->request->getPost('role'),
         ];
 
-        $penggunaModel->insert($data);
+        if ($penggunaModel->insert($data)) {
+            session()->setFlashdata('success', 'Pengguna berhasil ditambahkan.');
+        } else {
+            session()->setFlashdata('error', 'Gagal menambahkan pengguna.');
+        }
+        
         return redirect()->to('/PenggunaController');
     }
 

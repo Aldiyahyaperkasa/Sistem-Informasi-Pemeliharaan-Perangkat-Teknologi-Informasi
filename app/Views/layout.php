@@ -13,9 +13,14 @@
     
 
 
-  <link rel="stylesheet" href="<?= base_url() ?>assets/compiled/css/app.css">
-  <link rel="stylesheet" href="<?= base_url() ?>assets/compiled/css/app-dark.css">
-  <link rel="stylesheet" href="<?= base_url() ?>assets/compiled/css/iconly.css">
+    <link rel="stylesheet" href="<?= base_url() ?>assets/compiled/css/app.css">
+    <link rel="stylesheet" href="<?= base_url() ?>assets/compiled/css/app-dark.css">
+    <link rel="stylesheet" href="<?= base_url() ?>assets/compiled/css/iconly.css">
+
+    <!-- Include SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  
 </head>
 
 <body>
