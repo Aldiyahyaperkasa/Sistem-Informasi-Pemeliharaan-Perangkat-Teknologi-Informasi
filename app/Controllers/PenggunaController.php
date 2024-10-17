@@ -77,7 +77,11 @@ class PenggunaController extends Controller
             $data['password'] = password_hash($this->request->getPost('password'), PASSWORD_DEFAULT);
         }
 
-        $penggunaModel->update($id, $data);
+        if ($penggunaModel->update($id, $data)) {
+            session()->setFlashdata('success', 'Pengguna berhasil diupdate');        
+        } else {
+            session()->setFlashdata('error', 'Gagal update');
+        }
         return redirect()->to('/PenggunaController');
     }
 

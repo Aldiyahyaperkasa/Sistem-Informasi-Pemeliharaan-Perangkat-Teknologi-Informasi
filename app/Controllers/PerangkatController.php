@@ -73,7 +73,11 @@ class PerangkatController extends BaseController
             'tipe_perangkat' => $this->request->getPost('tipe_perangkat')
         ];
 
-        $this->perangkatModel->save($data);
+        if($this->perangkatModel->save($data)) {
+            session()->setFlashdata('success', 'perangkat berhasil ditambahkan');
+        } else {
+            session()->setFlashdata('error', 'gagal ditambahkan');
+        }
         return redirect()->to('/PerangkatController');
     }
     // Menampilkan form untuk mengedit perangkat
@@ -92,7 +96,12 @@ class PerangkatController extends BaseController
             'tipe_perangkat' => $this->request->getPost('tipe_perangkat')
         ];
 
-        $this->perangkatModel->update($id, $data);
+        if ($this->perangkatModel->update($id, $data)) {
+            session()->setFlashdata('success', 'perangkat berhasil diupdate');
+        } else {
+            session()->setFlashdata('error', 'gagal diupdate');
+        }
+
         return redirect()->to('/PerangkatController');
     }
     // Menghapus perangkat dari database

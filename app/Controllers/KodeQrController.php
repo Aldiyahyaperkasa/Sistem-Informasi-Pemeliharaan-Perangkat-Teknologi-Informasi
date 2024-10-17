@@ -87,9 +87,13 @@ class KodeQrController extends BaseController
             'id_perangkat' => $id_perangkat,
             'kode_qr' => $kode_qr
         ];
-        $this->kodeQrModel->save($data);
+        
+        if($this->kodeQrModel->save($data)) {
+            session()->setFlashdata('success', 'Generate kode QR berhasil.');
+        } else {
+            session()->setFlashdata('eroor', 'Gagal Generate kode QR.');
+        }
 
-        session()->setFlashdata('message', 'Generate kode QR berhasil.');
 
         return redirect()->to('/KodeQrController');
     }

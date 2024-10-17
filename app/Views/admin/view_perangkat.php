@@ -105,4 +105,25 @@
         </div>
     </div>
 </div>
+
+<?php if (session()->getFlashdata('success')): ?>
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: 'Sukses',
+        text: '<?= session()->getFlashdata('success') ?>',
+        confirmButtonText: 'OK'
+    });
+</script>
+<?php elseif (session()->getFlashdata('error')): ?>
+<script>
+    Swal.fire({
+        icon: 'error',
+        title: 'Gagal',
+        text: '<?= session()->getFlashdata('error') ?>',
+        confirmButtonText: 'OK'
+    });
+</script>
+<?php endif; ?>
+
 <?= $this->endSection() ?>

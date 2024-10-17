@@ -69,22 +69,7 @@
                         </button>
                     </form>
                 </div>
-            </div>
-
-
-            <!-- Tampilkan pesan -->
-            <?php if (session()->getFlashdata('error')): ?>
-                <div class="alert alert-danger mt-2" role="alert">
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    <?= session()->getFlashdata('error') ?>
-                </div>
-            <?php endif; ?>
-            <?php if (session()->getFlashdata('message')): ?>
-                <div class="alert alert-success mt-2" role="alert">
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    <?= session()->getFlashdata('message') ?>
-                </div>
-            <?php endif; ?>
+            </div>            
 
             <!-- Tabel Daftar QR Code -->
             <div class="table-responsive">
@@ -129,5 +114,29 @@
         </div>
     </div>
 </div>
+
+<?php if (session()->getFlashdata('success')): ?>
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: 'Sukses',
+        text: '<?= session()->getFlashdata('success') ?>',
+        confirmButtonText: 'OK'
+    });
+</script>
+
+
+
+
+<?php elseif (session()->getFlashdata('error')): ?>
+<script>
+    Swal.fire({
+        icon: 'error',
+        title: 'Gagal',
+        text: '<?= session()->getFlashdata('error') ?>',
+        confirmButtonText: 'OK'
+    });
+</script>
+<?php endif; ?>
 
 <?= $this->endSection() ?>
