@@ -88,8 +88,14 @@ class PenggunaController extends Controller
     public function delete($id)
     {
         $penggunaModel = new PenggunaModel();
-        $penggunaModel->delete($id);
+        
+        if ($penggunaModel->delete($id)) {
+            session()->setFlashdata('success', 'Pengguna berhasil dihapus.');
+        } else {
+            session()->setFlashdata('error', 'Gagal menghapus pengguna.');
+        }
 
         return redirect()->to('/PenggunaController');
     }
+
 }

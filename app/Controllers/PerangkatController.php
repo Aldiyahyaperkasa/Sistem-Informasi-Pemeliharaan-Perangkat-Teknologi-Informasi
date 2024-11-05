@@ -107,7 +107,12 @@ class PerangkatController extends BaseController
     // Menghapus perangkat dari database
     public function delete($id)
     {
-        $this->perangkatModel->delete($id);
+        if ($this->perangkatModel->delete($id)) {
+            session()->setFlashdata('success', 'Pengguna berhasil dihapus');
+        } else {
+            session()->setFlashdata('error', 'Gagal menghapus pengguna');
+        }
         return redirect()->to('/PerangkatController');
     }
+
 }

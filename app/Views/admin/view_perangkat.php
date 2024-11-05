@@ -89,9 +89,9 @@
                                 <a href="<?= site_url('PerangkatController/edit/' . $item['id_perangkat']) ?>" class="btn btn-warning btn-sm">
                                     <i class="bi bi-pencil-square"></i> Edit
                                 </a>
-                                <a href="<?= site_url('PerangkatController/delete/' . $item['id_perangkat']) ?>" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus perangkat ini?')">
+                                <button class="btn btn-danger btn-sm btn-delete" data-id="<?= $item['id_perangkat'] ?>">
                                     <i class="bi bi-trash"></i> Hapus
-                                </a>
+                                </button>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -125,5 +125,28 @@
     });
 </script>
 <?php endif; ?>
+
+<!-- SweetAlert Konfirmasi Hapus -->
+<script>
+    document.querySelectorAll('.btn-delete').forEach(button => {
+        button.addEventListener('click', function () {
+            const perangkatId = this.getAttribute('data-id');
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: "Perangkat akan dihapus secara permanen!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "<?= site_url('PerangkatController/delete/') ?>" + perangkatId;
+                }
+            })
+        });
+    });
+</script>
 
 <?= $this->endSection() ?>

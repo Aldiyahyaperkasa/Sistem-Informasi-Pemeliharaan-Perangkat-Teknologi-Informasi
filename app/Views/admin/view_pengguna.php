@@ -62,9 +62,16 @@
                                     <a href="<?= base_url('PenggunaController/edit/' . $user['id_user']) ?>" class="btn btn-warning btn-sm">
                                         <i class="bi bi-pencil-square"></i>Edit
                                     </a>
-                                    <a href="<?= base_url('PenggunaController/delete/' . $user['id_user']) ?>" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?');">
+                                    <!-- <a href="<?= base_url('PenggunaController/delete/' . $user['id_user']) ?>" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?');">
                                         <i class="bi bi-trash"></i>Delete
-                                    </a>
+                                    </a> -->
+                                    <!-- <button class="btn btn-danger btn-sm" onclick="confirmDelete(<?= $user['id_user'] ?>)">
+                                        <i class="bi bi-trash"></i> Delete
+                                    </button> -->
+                                    <button class="btn btn-danger btn-sm btn-delete" data-id="<?= $user['id_user'] ?>">
+                                        <i class="bi bi-trash"></i> Delete
+                                    </button>
+
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -75,24 +82,48 @@
     </div>
 </div>
 
-
 <?php if (session()->getFlashdata('success')): ?>
-<script>
-    Swal.fire({
-        icon: 'success',
-        title: 'Sukses',
-        text: '<?= session()->getFlashdata('success') ?>',
-        confirmButtonText: 'OK'
-    });
-</script>
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Sukses',
+            text: '<?= session()->getFlashdata('success') ?>',
+            confirmButtonText: 'OK'
+        });
+    </script>
+
 <?php elseif (session()->getFlashdata('error')): ?>
-<script>
-    Swal.fire({
-        icon: 'error',
-        title: 'Gagal',
-        text: '<?= session()->getFlashdata('error') ?>',
-        confirmButtonText: 'OK'
-    });
-</script>
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal',
+            text: '<?= session()->getFlashdata('error') ?>',
+            confirmButtonText: 'OK'
+        });
+    </script>
 <?php endif; ?>
+
+<script>
+document.querySelectorAll('.btn-delete').forEach(button => {
+    button.addEventListener('click', function () {
+        const userId = this.getAttribute('data-id');
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: "Pengguna akan dihapus secara permanen!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '/PenggunaController/delete/' + userId;
+            }
+        });
+    });
+});
+</script>
+
+
 <?= $this->endSection(); ?>
