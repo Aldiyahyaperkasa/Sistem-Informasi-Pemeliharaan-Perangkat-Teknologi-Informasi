@@ -101,9 +101,9 @@
                                 <a href="<?= site_url('KodeQrController/printQrCode/' . $qr_code['id_qr']) ?>" class="btn btn-warning text-dark">
                                     <i class="bi bi-printer"></i> Cetak
                                 </a>
-                                <a href="<?= site_url('KodeQrController/delete/' . $qr_code['id_qr']) ?>" class="btn btn-danger" onclick="return confirm('Are you sure?')">
-                                    <i class="bi bi-trash"></i> Delete                            
-                                </a>
+                                <button class="btn btn-danger btn-sm btn-delete" data-id="<?= $qr_code['id_qr'] ?>">
+                                    <i class="bi bi-trash"></i> Hapus
+                                </button>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -125,9 +125,6 @@
     });
 </script>
 
-
-
-
 <?php elseif (session()->getFlashdata('error')): ?>
 <script>
     Swal.fire({
@@ -138,5 +135,29 @@
     });
 </script>
 <?php endif; ?>
+
+<script>
+document.querySelectorAll('.btn-delete').forEach(button => {
+    button.addEventListener('click', function () {
+        const qrCodeId = this.getAttribute('data-id'); // Ambil ID dari atribut data-id
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: "QR Code ini akan dihapus secara permanen!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Redirect ke controller untuk menghapus QR Code
+                window.location.href = "<?= site_url('KodeQrController/delete/') ?>" + qrCodeId;
+            }
+        })
+    });
+});
+</script>
+
 
 <?= $this->endSection() ?>

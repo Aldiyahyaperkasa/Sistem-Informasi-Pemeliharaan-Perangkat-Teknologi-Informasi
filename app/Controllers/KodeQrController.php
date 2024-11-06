@@ -91,10 +91,8 @@ class KodeQrController extends BaseController
         if($this->kodeQrModel->save($data)) {
             session()->setFlashdata('success', 'Generate kode QR berhasil.');
         } else {
-            session()->setFlashdata('eroor', 'Gagal Generate kode QR.');
+            session()->setFlashdata('error', 'Gagal Generate kode QR.');
         }
-
-
         return redirect()->to('/KodeQrController');
     }
 
@@ -119,9 +117,22 @@ class KodeQrController extends BaseController
     // Menghapus QR Code dari database
     public function delete($id)
     {
-        $this->kodeQrModel->delete($id);
+        try {
+            // Menghapus QR Code berdasarkan ID
+            if ($this->kodeQrModel->delete($id)) {
+                session()->setFlashdata('success', 'QR Code berhasil dihapus.');
+            } else {
+                session()->setFlashdata('error', 'Gagal menghapus QR Code.');
+            }
+        } catch (\Exception $e) {
+            // Menangani error yang tidak terduga
+            session()->setFlashdata('error', 'Terjadi kesalahan saat menghapus QR Code: ' . $e->getMessage());
+        }
+
+        // Mengarahkan kembali ke halaman daftar QR Code
         return redirect()->to('/KodeQrController');
     }
+
 
     // Generate unique QR Code
     private function generateUniqueQrCode($id_perangkat)
