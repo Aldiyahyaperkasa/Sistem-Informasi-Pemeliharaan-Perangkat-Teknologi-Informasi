@@ -142,71 +142,70 @@ class KodeQrController extends BaseController
     }
 
     private function generateQrImage($qrCodeValue) {
-    $qrCode = new QrCode($qrCodeValue);
-    $writer = new PngWriter();
-    $result = $writer->write($qrCode);
-    return 'data:image/png;base64,' . base64_encode($result->getString());
-}
-
-public function printQrCode($id) {
-    $qr_code = $this->kodeQrModel
-                    ->select('kode_qr.*, perangkat.nama_perangkat, perangkat.department')
-                    ->join('perangkat', 'perangkat.id_perangkat = kode_qr.id_perangkat', 'left')
-                    ->where('kode_qr.id_qr', $id)
-                    ->first();
-
-    if (!$qr_code) {
-        throw new \CodeIgniter\Exceptions\PageNotFoundException("QR Code dengan ID $id tidak ditemukan");
+        $qrCode = new QrCode($qrCodeValue);
+        $writer = new PngWriter();
+        $result = $writer->write($qrCode);
+        return 'data:image/png;base64,' . base64_encode($result->getString());
     }
 
-    $qr_code['qr_image'] = $this->generateQrImage($qr_code['kode_qr']);
+    public function printQrCode($id) {
+        $qr_code = $this->kodeQrModel
+                        ->select('kode_qr.*, perangkat.nama_perangkat, perangkat.department')
+                        ->join('perangkat', 'perangkat.id_perangkat = kode_qr.id_perangkat', 'left')
+                        ->where('kode_qr.id_qr', $id)
+                        ->first();
 
-    $html = view('admin/export_qr_pdf', [
-        'qr_codes' => [$qr_code],
-        'department' => $qr_code['department']
-    ]);
+        if (!$qr_code) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException("QR Code dengan ID $id tidak ditemukan");
+        }
 
-    $this->generatePdf($html, "qr_code_{$id}.pdf");
-}
-
-public function exportPdfByDepartment() {
-    $department = $this->request->getGet('department');
-
-    $qr_codes = $this->kodeQrModel
-                    ->select('kode_qr.*, perangkat.nama_perangkat, perangkat.department')
-                    ->join('perangkat', 'perangkat.id_perangkat = kode_qr.id_perangkat', 'left')
-                    ->where('perangkat.department', $department)
-                    ->findAll();
-
-    foreach ($qr_codes as &$qr_code) {
         $qr_code['qr_image'] = $this->generateQrImage($qr_code['kode_qr']);
+
+        $html = view('admin/export_qr_pdf', [
+            'qr_codes' => [$qr_code],
+            'department' => $qr_code['department']
+        ]);
+
+        $this->generatePdf($html, "qr_code_{$id}.pdf");
     }
 
-    $html = view('admin/export_qr_pdf', ['qr_codes' => $qr_codes, 'department' => $department]);
-    $this->generatePdf($html, "qr_codes_export_{$department}.pdf");
-}
+    public function exportPdfByDepartment() {
+        $department = $this->request->getGet('department');
 
-public function exportPdf() {
-    $qr_codes = $this->kodeQrModel
-                    ->select('kode_qr.*, perangkat.nama_perangkat, perangkat.department')
-                    ->join('perangkat', 'perangkat.id_perangkat = kode_qr.id_perangkat', 'left')
-                    ->findAll();
+        $qr_codes = $this->kodeQrModel
+                        ->select('kode_qr.*, perangkat.nama_perangkat, perangkat.department')
+                        ->join('perangkat', 'perangkat.id_perangkat = kode_qr.id_perangkat', 'left')
+                        ->where('perangkat.department', $department)
+                        ->findAll();
 
-    foreach ($qr_codes as &$qr_code) {
-        $qr_code['qr_image'] = $this->generateQrImage($qr_code['kode_qr']);
+        foreach ($qr_codes as &$qr_code) {
+            $qr_code['qr_image'] = $this->generateQrImage($qr_code['kode_qr']);
+        }
+
+        $html = view('admin/export_qr_pdf', ['qr_codes' => $qr_codes, 'department' => $department]);
+        $this->generatePdf($html, "qr_codes_export_{$department}.pdf");
     }
 
-    $html = view('admin/export_qr_pdf', ['qr_codes' => $qr_codes, 'department' => 'Semua Department']);
-    $this->generatePdf($html, "qr_codes_export.pdf");
-}
+    public function exportPdf() {
+        $qr_codes = $this->kodeQrModel
+                        ->select('kode_qr.*, perangkat.nama_perangkat, perangkat.department')
+                        ->join('perangkat', 'perangkat.id_perangkat = kode_qr.id_perangkat', 'left')
+                        ->findAll();
 
-private function generatePdf($html, $fileName) {
-    $dompdf = new Dompdf();
-    $dompdf->loadHtml($html);
-    $dompdf->setPaper('A4', 'portrait');
-    $dompdf->render();
-    $dompdf->stream($fileName, ["Attachment" => false]);
-}
+        foreach ($qr_codes as &$qr_code) {
+            $qr_code['qr_image'] = $this->generateQrImage($qr_code['kode_qr']);
+        }
 
+        $html = view('admin/export_qr_pdf', ['qr_codes' => $qr_codes, 'department' => 'Semua Department']);
+        $this->generatePdf($html, "qr_codes_export.pdf");
+    }
+
+    private function generatePdf($html, $fileName) {
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+        $dompdf->stream($fileName, ["Attachment" => false]);
+    }
 
 }

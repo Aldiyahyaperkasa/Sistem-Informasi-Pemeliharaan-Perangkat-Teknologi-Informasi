@@ -9,29 +9,28 @@ class PenggunaController extends Controller
 {
 
     public function index()
-{
-    $penggunaModel = new PenggunaModel();
+    {
+        $penggunaModel = new PenggunaModel();
 
-    // Ambil role dari query string atau default ke "all" (semua role)
-    $roleFilter = $this->request->getGet('role') ?? 'all';
+        // Ambil role dari query string atau default ke "all" (semua role)
+        $roleFilter = $this->request->getGet('role') ?? 'all';
 
-    // Ambil daftar role yang unik
-    $data['roles'] = $penggunaModel->select('role')->distinct()->findAll();
+        // Ambil daftar role yang unik
+        $data['roles'] = $penggunaModel->select('role')->distinct()->findAll();
 
-    // Jika role yang dipilih adalah "all", ambil semua data
-    if ($roleFilter === 'all') {
-        $data['pengguna'] = $penggunaModel->findAll();
-    } else {
-        // Jika role spesifik dipilih, filter berdasarkan role
-        $data['pengguna'] = $penggunaModel->where('role', $roleFilter)->findAll();
+        // Jika role yang dipilih adalah "all", ambil semua data
+        if ($roleFilter === 'all') {
+            $data['pengguna'] = $penggunaModel->findAll();
+        } else {
+            // Jika role spesifik dipilih, filter berdasarkan role
+            $data['pengguna'] = $penggunaModel->where('role', $roleFilter)->findAll();
+        }
+
+        // Untuk menyimpan role yang dipilih ke view
+        $data['selectedRole'] = $roleFilter;
+
+        return view('admin/view_pengguna', $data);
     }
-
-    // Untuk menyimpan role yang dipilih ke view
-    $data['selectedRole'] = $roleFilter;
-
-    return view('admin/view_pengguna', $data);
-}
-
 
     public function create()
     {

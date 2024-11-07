@@ -71,7 +71,6 @@
                                     <button class="btn btn-danger btn-sm btn-delete" data-id="<?= $user['id_user'] ?>">
                                         <i class="bi bi-trash"></i> Delete
                                     </button>
-
                                 </td>
                             </tr>
                         <?php endforeach; ?>
