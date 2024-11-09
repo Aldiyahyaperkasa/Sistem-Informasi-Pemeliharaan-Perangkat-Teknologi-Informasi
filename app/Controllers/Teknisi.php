@@ -29,29 +29,30 @@ class Teknisi extends BaseController
         // menampilkan halaman scan
         return view('teknisi/scan', $data);
     }
-public function lookup($kode_qr)
-{
-    // Find QR code data
-    $qrCodeData = $this->kodeQrModel->where('kode_qr', $kode_qr)->first();
     
-    if ($qrCodeData) {
-        // Retrieve the device using the ID from QR code data
-        $perangkat = $this->perangkatModel->find($qrCodeData['id_perangkat']);
+    public function lookup($kode_qr)
+    {
+        // Find QR code data
+        $qrCodeData = $this->kodeQrModel->where('kode_qr', $kode_qr)->first();
         
-        if ($perangkat) {
-            // Return device details including department
-            return $this->response->setJSON([
-                'perangkat' => [
-                    'nama' => $perangkat['nama_perangkat'],
-                    'deskripsi' => $perangkat['tipe_perangkat'],
-                    'department' => $perangkat['department'], // Capture department
-                ]
-            ]);
+        if ($qrCodeData) {
+            // Retrieve the device using the ID from QR code data
+            $perangkat = $this->perangkatModel->find($qrCodeData['id_perangkat']);
+            
+            if ($perangkat) {
+                // Return device details including department
+                return $this->response->setJSON([
+                    'perangkat' => [
+                        'nama' => $perangkat['nama_perangkat'],
+                        'deskripsi' => $perangkat['tipe_perangkat'],
+                        'department' => $perangkat['department'], // Capture department
+                    ]
+                ]);
+            }
         }
-    }
 
-    return $this->response->setJSON(['error' => 'Device not found.']);
-}
+        return $this->response->setJSON(['error' => 'Device not found.']);
+    }
 
     public function saveMaintenance()
     {
