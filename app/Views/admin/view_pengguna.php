@@ -46,6 +46,7 @@
                 <table class="table ">
                     <thead class="">
                         <tr>
+                            <th>No</th>
                             <th>ID</th>
                             <th>Username</th>
                             <th>Role</th>
@@ -53,8 +54,10 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <?php $no =1; ?>
                         <?php foreach ($pengguna as $user): ?>
                             <tr>
+                                <td><?= $no++ ?></td>
                                 <td><?= $user['id_user'] ?></td>
                                 <td><?= $user['username'] ?></td>
                                 <td><?= $user['role'] ?></td>
@@ -76,6 +79,11 @@
                         <?php endforeach; ?>
                     </tbody>
                 </table>
+                
+                <div class="d-flex justify-content-center">
+                    <?= $pager->links() ?>
+                </div>
+
             </div>
         </div>
     </div>
