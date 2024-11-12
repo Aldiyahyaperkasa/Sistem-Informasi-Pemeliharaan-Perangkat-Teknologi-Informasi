@@ -15,31 +15,31 @@ class PenggunaController extends Controller
         // Ambil role dari query string atau default ke "all" (semua role)
         $roleFilter = $this->request->getGet('role') ?? 'all';
 
-        // Tentukan berapa banyak data yang ingin ditampilkan per halaman
-        $perPage = 2;
-
-        // Buat query dasar
-        if ($roleFilter === 'all') {
-            // Ambil semua pengguna jika "all" dipilih
-            $pengguna = $penggunaModel;
-        } else {
-            // Filter pengguna berdasarkan role yang dipilih
-            $pengguna = $penggunaModel->where('role', $roleFilter);
-        }
-
-        // Pagination: ambil data pengguna dengan paginasi
-        $data['pengguna'] = $pengguna->paginate($perPage);
-        $data['pager'] = $penggunaModel->pager;
-
         // Ambil daftar role yang unik
         $data['roles'] = $penggunaModel->select('role')->distinct()->findAll();
+
+        $perPage = 15;
+
+        // Jika role yang dipilih adalah "all", ambil semua data, dengan pagination
+        if ($roleFilter === 'all') {
+            $data['pengguna'] = $penggunaModel->paginate($perPage, 'pengguna'); // menampilkan 10 data per halaman
+        } else {
+            // Jika role spesifik dipilih, filter berdasarkan role, dengan pagination
+            $data['pengguna'] = $penggunaModel->where('role', $roleFilter)->paginate($perPage, 'pengguna');
+        }
+
+        // Pagination object
+        $data['pager'] = $penggunaModel->pager;  // ini harus diinisialisasi
 
         // Untuk menyimpan role yang dipilih ke view
         $data['selectedRole'] = $roleFilter;
 
+        $data['currentPage'] = $this->request->getVar('page_pengguna') ?? 1;
+
+        $data['perPage'] = $perPage;
+
         return view('admin/view_pengguna', $data);
     }
-
 
     public function create()
     {

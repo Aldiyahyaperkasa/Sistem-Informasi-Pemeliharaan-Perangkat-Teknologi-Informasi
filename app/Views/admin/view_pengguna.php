@@ -54,7 +54,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $no =1; ?>
+                        <?php $no = 1 + ($currentPage - 1) * $perPage; ?>
                         <?php foreach ($pengguna as $user): ?>
                             <tr>
                                 <td><?= $no++ ?></td>
@@ -81,9 +81,8 @@
                 </table>
                 
                 <div class="d-flex justify-content-center">
-                    <?= $pager->links() ?>
+                    <?= $pager->links('pengguna', 'pengguna_pagination') ?>
                 </div>
-
             </div>
         </div>
     </div>
