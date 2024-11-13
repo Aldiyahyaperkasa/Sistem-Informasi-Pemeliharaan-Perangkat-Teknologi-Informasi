@@ -43,7 +43,7 @@ class PerangkatController extends BaseController
         }
 
         // Ambil data perangkat dengan pagination
-        $data['perangkat'] = $this->perangkatModel->paginate($perPage);
+        $data['perangkat'] = $this->perangkatModel->paginate($perPage, 'perangkat');
         $data['pager'] = $this->perangkatModel->pager;
 
         // Ambil data untuk dropdown filter
@@ -54,6 +54,9 @@ class PerangkatController extends BaseController
         $data['search'] = $search;
         $data['department'] = $department;
         $data['tipe_perangkat'] = $tipe_perangkat;
+        $data['currentPage'] = $this->request->getVar('page_perangkat') ?? 1;
+        $data['perPage'] = $perPage;
+
 
         return view('admin/view_perangkat', $data);
     }

@@ -77,6 +77,7 @@
                 <table class="table mt-3">
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>ID</th>
                             <th>ID Perangkat</th>
                             <th>Nama Perangkat</th>
@@ -87,8 +88,10 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <?php $no = 1 + ($currentPage - 1) * $perPage; ?>
                         <?php foreach ($qr_codes as $qr_code): ?>
                         <tr>
+                            <td><?= $no++ ?></td>
                             <td><?= $qr_code['id_qr'] ?></td>
                             <td><?= $qr_code['id_perangkat'] ?></td>
                             <td><?= $qr_code['nama_perangkat'] ?></td>
@@ -109,8 +112,10 @@
                         <?php endforeach; ?>
                     </tbody>
                 </table>
-             </div>
-
+            </div>
+            <div class="d-flex justify-content-center">
+                <?= $pager->links('kode_qr', 'kode_qr_pagination') ?>
+            </div>
         </div>
     </div>
 </div>

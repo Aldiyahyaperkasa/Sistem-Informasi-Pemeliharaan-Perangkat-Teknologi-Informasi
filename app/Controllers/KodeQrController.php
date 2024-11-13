@@ -26,6 +26,8 @@ class KodeQrController extends BaseController
         $search = $this->request->getGet('search');
         $selectedDepartment = $this->request->getGet('department');
 
+        $perPage = 10;
+
         // Join with the perangkat table
         $query = $this->kodeQrModel
                     ->select('kode_qr.*, perangkat.nama_perangkat, perangkat.department')
@@ -46,14 +48,17 @@ class KodeQrController extends BaseController
         }
 
         // Get the query results
-        $qr_codes = $query->findAll();
+        $qr_codes = $query->paginate($perPage, 'kode_qr');
 
-        $departments = $this->perangkatModel->distinct()->select('department')->findAll();
+        $departments = $this->perangkatModel->distinct()->select('department')->paginate($perPage, 'kode_qr');
 
         $data['qr_codes'] = $qr_codes;
+        $data['pager'] = $this->kodeQrModel->pager; // Pastikan pager dikirim ke view
         $data['search'] = $search; // Send search value to retain input
         $data['departments'] = $departments; // Pass departments to view
         $data['selectedDepartment'] = $selectedDepartment; // Pass selected department to view
+        $data['currentPage'] = $this->request->getVar('page_kode_qr') ?? 1;
+        $data['perPage'] = $perPage;
 
         return view('admin/view_kode_qr', $data);
     }

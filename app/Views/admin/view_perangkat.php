@@ -71,6 +71,7 @@
                 <table class="table mt-3">
                     <thead>
                         <tr>
+                            <th class="text-dark">No</th>
                             <th class="text-dark">ID</th>
                             <th class="text-dark">Nama Perangkat</th>
                             <th class="text-dark">Department</th>
@@ -79,8 +80,10 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <?php $no = 1 + ($currentPage - 1) * $perPage; ?>
                         <?php foreach ($perangkat as $item): ?>
                         <tr class="border-bottom">
+                            <td><?= $no++ ?></td>
                             <td><?= esc($item['id_perangkat']) ?></td>
                             <td><?= esc($item['nama_perangkat']) ?></td>
                             <td><?= esc($item['department']) ?></td>
@@ -101,7 +104,7 @@
         </div>
 
         <div class="d-flex justify-content-center">
-            <?= $pager->links() ?>
+            <?= $pager->links('perangkat', 'perangkat_pagination') ?>
         </div>
     </div>
 </div>
