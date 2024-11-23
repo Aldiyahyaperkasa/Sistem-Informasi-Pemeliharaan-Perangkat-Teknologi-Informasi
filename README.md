@@ -5,12 +5,10 @@ password : admin
 
 ## MANAJER:
 username : manajer
-
 password : manajer
 
 ## STAFF:
 username : teknisi
-
 password : teknisi
 
 # CodeIgniter 4 Application Starter
