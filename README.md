@@ -3,11 +3,11 @@
 username : admin  
 password : admin
 
-##MANAJER:
+## MANAJER:
 username : manajer
 password : manajer
 
-##STAFF:
+## STAFF:
 username : teknisi
 password : teknisi
 
