@@ -67,7 +67,7 @@
                             <th style="width: 10%;">Tanggal Pemeliharaan</th>
                             <th style="width: 25%;">Hasil</th>
                             <th style="width: 25%;">Keterangan</th>
-                            <th style="width: 10%;">User</th>
+                            <th style="width: 10%;">Teknisi</th>
                         </tr>
                     </thead>
                     <tbody>

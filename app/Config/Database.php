@@ -29,7 +29,7 @@ class Database extends Config
         'hostname' => 'localhost',
         'username' => 'root',
         'password' => '',
-        'database' => 'aku_coba',
+        'database' => 'db_ta',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
         'pConnect' => false,

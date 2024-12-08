@@ -21,7 +21,6 @@
                                 <div class="card-body">
                                     <h5 class="card-title">ID: <?= esc($item['id_perangkat']) ?></h5>
                                     <p class="card-text">Nama Perangkat: <?= esc($item['nama_perangkat']) ?></p>
-                                    <p class="card-text">Status: <?= esc($item['status']) ?></p>
                                 </div>
                             </div>
                         </div>

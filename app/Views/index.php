@@ -79,7 +79,7 @@
                             </a>
                             <ul class="submenu">
                                 <li class="submenu-item">
-                                    <a href="<?= site_url('/JadwalPemeliharaanController/index') ?>">Pemeliharaan</a>
+                                    <a href="<?= site_url('/JadwalPemeliharaanController/index') ?>">Jadwal Pemeliharaan</a>
                                 </li>
                                 <li class="submenu-item">
                                     <a href="<?= site_url('/LaporanController/laporan') ?>">Laporan Pemeliharaan</a>
