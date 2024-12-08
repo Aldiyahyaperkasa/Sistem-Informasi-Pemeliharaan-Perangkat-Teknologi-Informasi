@@ -114,7 +114,7 @@ class JadwalPemeliharaanController extends BaseController
         ]);
 
         // Perbarui status perangkat menjadi "active"
-        // $perangkatModel->where('department', $departemen)->set(['status' => 'active'])->update();
+        $perangkatModel->where('department', $departemen)->set(['status' => 'active'])->update();
 
         return redirect()->to('/jadwalPemeliharaanController')->with('success', 'Jadwal berhasil diperbarui');
     }
