@@ -70,6 +70,15 @@ class PerangkatController extends BaseController
     //simpan data perangkat baru
     public function store()
     {
+        $namaPerangkat = $this->request->getPost('nama_perangkat');
+        $existingDevice = $this->perangkatModel->where('nama_perangkat', $namaPerangkat)->first();
+
+        // Periksa apakah nama perangkat sudah ada
+        if ($existingDevice) {
+            session()->setFlashdata('error', 'Nama perangkat sudah ada.');
+            return redirect()->to('/PerangkatController');
+        }
+        
         $data = [
             'nama_perangkat' => $this->request->getPost('nama_perangkat'),
             'department' => $this->request->getPost('department'),
