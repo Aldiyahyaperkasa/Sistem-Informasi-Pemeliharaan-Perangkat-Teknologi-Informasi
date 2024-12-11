@@ -101,7 +101,21 @@ class PerangkatController extends BaseController
     // Mengupdate data perangkat
     public function update()
     {
+
         $id = $this->request->getPost('id_perangkat');
+        $namaPerangkat = $this->request->getPost('nama_perangkat');
+
+        // Cek apakah nama perangkat yang ingin diupdate sudah ada pada perangkat lain
+        $existingDevice = $this->perangkatModel->where('nama_perangkat', $namaPerangkat)
+                                            ->where('id_perangkat !=', $id)
+                                            ->first();
+
+        if ($existingDevice) {
+            // Jika nama perangkat sudah ada pada perangkat lain
+            session()->setFlashdata('error', 'Nama perangkat sudah digunakan oleh perangkat lain.');
+            return redirect()->to('/PerangkatController');
+        }
+    
         $data = [
             'nama_perangkat' => $this->request->getPost('nama_perangkat'),
             'department' => $this->request->getPost('department'),

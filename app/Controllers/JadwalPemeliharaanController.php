@@ -56,6 +56,17 @@ class JadwalPemeliharaanController extends BaseController
         }
 
         foreach ($departemen as $dept) {
+            // Cek apakah sudah ada jadwal untuk department ini
+            $existingSchedule = $model->where('department', $dept)
+                                    ->where('status', 'Terjadwal')  // Pastikan statusnya 'Terjadwal'
+                                    ->first();
+
+            if ($existingSchedule) {
+                // Jika jadwal sudah ada, tampilkan SweetAlert error
+                session()->setFlashdata('error', "Jadwal untuk department {$dept} sudah ada");
+                return redirect()->to('/jadwalPemeliharaanController');
+            }
+
             // Simpan jadwal pemeliharaan dengan user_id
             $model->save([
                 'department'      => $dept,
@@ -105,7 +116,19 @@ class JadwalPemeliharaanController extends BaseController
             return redirect()->back()->with('error', 'Data tidak valid');
         }
 
-        // Update jadwal pemeliharaan dengan menyimpan siapa yang mengubah (updated_by)
+        // Cek apakah sudah ada jadwal lain yang terjadwal untuk department ini
+        $existingSchedule = $model->where('department', $departemen)
+                                ->where('status', 'Terjadwal')  // Pastikan statusnya 'Terjadwal'
+                                ->where('id_jadwal !=', $id)  // Pastikan bukan jadwal yang sedang diupdate
+                                ->first();
+
+        if ($existingSchedule) {
+            // Jika jadwal sudah ada, tampilkan SweetAlert error
+            session()->setFlashdata('error', "Jadwal untuk department {$departemen} sudah ada");
+            return redirect()->to('/jadwalPemeliharaanController');
+        }
+
+        // Update jadwal pemeliharaan 
         $model->update($id, [
             'department'      => $departemen,
             'tanggal_mulai'   => $tanggalMulai,
@@ -122,16 +145,21 @@ class JadwalPemeliharaanController extends BaseController
 
     public function delete($id)
     {
-        $model = new JadwalPemeliharaanModel();
-
-        if (!$id) {
-            return redirect()->to('/jadwalPemeliharaanController')->with('error', 'ID jadwal tidak valid');
+        try {
+            $model = new JadwalPemeliharaanModel();
+            if ($model->delete($id)) {
+                session()->setFlashdata('success', 'Jadwal berhasil dihapus');
+            } else {
+                session()->setFlashdata('error', 'Gagal menghapus jadwal');
+            }
+        } catch (\Exception $e) {
+            // Tangani error yang tidak terduga
+            session()->setFlashdata('error', 'Terjadi kesalahan saat menghapus jadwal: ' . $e->getMessage());
         }
 
-        $model->delete($id);
-
-        return redirect()->to('/jadwalPemeliharaanController')->with('success', 'Jadwal berhasil dihapus');
+        return redirect()->to('/jadwalPemeliharaanController');
     }
+
 
     public function details($department)
     {

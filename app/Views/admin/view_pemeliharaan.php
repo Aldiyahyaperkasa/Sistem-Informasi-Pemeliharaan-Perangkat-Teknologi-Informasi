@@ -24,7 +24,7 @@
                                     <p class="card-text">Tanggal Mulai: <?= esc($item['tanggal_mulai']) ?></p>
                                     <p class="card-text">Tanggal Selesai: <?= esc($item['tanggal_selesai']) ?></p>
                                     <p class="card-text">Status: <?= esc($item['status']) ?></p>
-                                    <p class="card-text">Ditambahkan oleh: <?= esc($item['username']) ?></p> <!-- Menampilkan username -->
+                                    <p class="card-text">Dibuat oleh: <?= esc($item['username']) ?></p> <!-- Menampilkan username -->
 
                                     <div class="mb-2">
                                         <a href="<?= site_url('jadwalPemeliharaanController/details/' . urlencode($item['department'])) ?>" class="btn btn-primary btn-block">
@@ -35,9 +35,9 @@
                                         <a href="<?= site_url('jadwalPemeliharaanController/edit/' . $item['id_jadwal']) ?>" class="btn btn-warning flex-fill me-2">
                                             <i class="bi bi-pencil-square"></i>Edit
                                         </a>
-                                        <a href="<?= site_url('jadwalPemeliharaanController/delete/' . $item['id_jadwal']) ?>" class="btn btn-danger flex-fill" onclick="return confirm('Apakah Anda yakin ingin menghapus jadwal ini?')">
-                                            <i class="bi bi-trash"></i>Hapus
-                                        </a>
+                                        <button class="btn btn-danger btn-sm btn-delete" data-id="<?= $item['id_jadwal'] ?>">
+                                            <i class="bi bi-trash"></i> Hapus
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -50,4 +50,50 @@
         </div>
     </div>
 </div>
+
+
+<?php if (session()->getFlashdata('success')): ?>
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Sukses',
+            text: '<?= session()->getFlashdata('success') ?>',
+            confirmButtonText: 'OK'
+        });
+    </script>
+
+<?php elseif (session()->getFlashdata('error')): ?>
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal',
+            text: '<?= session()->getFlashdata('error') ?>',
+            confirmButtonText: 'OK'
+        });
+    </script>
+<?php endif; ?>
+
+<!-- SweetAlert Konfirmasi Hapus -->
+<script>
+    document.querySelectorAll('.btn-delete').forEach(button => {
+        button.addEventListener('click', function () {
+            const jadwalId = this.getAttribute('data-id');
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: "Jadwal pemeliharaan akan dihapus secara permanen!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "<?= site_url('jadwalPemeliharaanController/delete/') ?>" + jadwalId;
+                }
+            })
+        });
+    });
+</script>
+
 <?= $this->endSection() ?>
