@@ -37,7 +37,10 @@
                                 </a>
                             </div>
                         </div>
-                    </div>                                  
+                    </div> 
+                    <div class="text-end">
+                        <p><span class="text-danger">*</span>click filter first for export by department</p>
+                    </div>                                 
                 </div>
             </form>
         </div>

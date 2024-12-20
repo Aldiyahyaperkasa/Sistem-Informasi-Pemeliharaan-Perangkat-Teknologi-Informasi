@@ -55,8 +55,9 @@
                         <button type="submit" class="btn btn-success">
                             <i class="fas fa-download"></i> Unduh Laporan PDF
                         </button>
+                        <p><span class="text-danger">*</span>click filter first for download by filters</p>
                     </form>
-                </div>
+                </div>                
             </div>
             <!-- Tabel untuk menampilkan laporan -->
             <div class="table-responsive">
