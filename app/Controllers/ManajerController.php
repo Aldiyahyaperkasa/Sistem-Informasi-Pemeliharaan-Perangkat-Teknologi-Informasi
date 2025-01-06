@@ -100,5 +100,28 @@ class ManajerController extends BaseController
         $pdf->stream('laporan_pemeliharaan.pdf', ['Attachment' => false]);
     }
 
+    public function cetak($id)
+    {
+        $riwayatModel = new RiwayatPemeliharaanModel();
 
+        // Ambil laporan berdasarkan ID
+        $laporan = $riwayatModel->getLaporanById($id);
+
+        // Generate PDF
+        $options = new Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isPhpEnabled', true);
+        $pdf = new Dompdf($options);
+
+        // Kirim data ke view PDF
+        $data = [
+            'laporan' => $laporan,
+        ];
+
+        $html = view('manajer/laporan_pemeliharaan_cetak', $data);
+        $pdf->loadHtml($html);
+        $pdf->setPaper('A4', 'portrait');  // Portrait atau landscape tergantung kebutuhan
+        $pdf->render();
+        $pdf->stream('laporan_pemeliharaan_' . $id . '.pdf', ['Attachment' => false]);
+    }
 }

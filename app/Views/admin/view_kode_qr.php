@@ -107,7 +107,7 @@
                                 <a href="<?= site_url('KodeQrController/printQrCode/' . $qr_code['id_qr']) ?>" class="btn btn-warning text-dark">
                                     <i class="bi bi-printer"></i> Cetak
                                 </a>
-                                <button class="btn btn-danger btn-sm btn-delete" data-id="<?= $qr_code['id_qr'] ?>">
+                                <button class="btn btn-danger btn-sm btn-delete p-2" data-id="<?= $qr_code['id_qr'] ?>">
                                     <i class="bi bi-trash"></i> Hapus
                                 </button>
                             </td>

@@ -13,6 +13,9 @@
             width: 100%;
             margin: 0 auto;
         }
+        .header img {
+            float: left;
+        }
         .header, .footer {
             text-align: center;
             margin-bottom: 20px;
@@ -53,8 +56,15 @@
     </style>
 </head>
 <body>
+<?php
+    // Convert the image to base64
+    $imagePath = FCPATH . 'image/KMI.png'; // Path to your logo
+    $imageData = base64_encode(file_get_contents($imagePath)); // Read the image and encode it
+    $imageSrc = 'data:image/png;base64,' . $imageData; // Create a base64 image source
+?>
     <div class="container">
         <div class="header">
+            <img src="<?= $imageSrc ?>" alt="Logo" style="height: 50px;">
             <h1>Laporan Pemeliharaan Perangkat</h1>
             <p>Departemen: <?= esc($selectedDepartment); ?></p>
             <p>Tahun: <?= esc($selectedYear ?? 'Semua Tahun'); ?></p>
@@ -64,6 +74,7 @@
             <thead>
                 <tr>
                     <th>Nama Perangkat</th>
+                    <th>Department</th>
                     <th>Tanggal Pemeliharaan</th>
                     <th>Hasil</th>
                     <th>Keterangan</th>
@@ -75,6 +86,7 @@
                     <?php foreach ($laporan as $item) : ?>
                         <tr>
                             <td><?= esc($item['nama_perangkat']); ?></td>
+                            <td><?= esc($item['department']); ?></td>
                             <td><?= esc($item['tanggal_pemeliharaan']); ?></td>
                             <td><?= esc($item['hasil']); ?></td>
                             <td><?= esc($item['keterangan']); ?></td>

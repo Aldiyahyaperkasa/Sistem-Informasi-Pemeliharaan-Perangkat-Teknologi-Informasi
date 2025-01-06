@@ -53,9 +53,8 @@
                         <button type="submit" class="btn btn-success">
                             <i class="fas fa-download"></i> Unduh Laporan PDF
                         </button>
+                        <p><span class="text-danger">*</span>click filter first for download by filters</p>                    
                     </form>
-                        <p><span class="text-danger">*</span>click filter first for download by filters</p>
-                    
                 </div>
             </div>
             
@@ -68,10 +67,12 @@
                     <thead>
                         <tr>
                             <th>Nama Perangkat</th>
+                            <th>Department</th>
                             <th>Tanggal Pemeliharaan</th>
                             <th>Hasil</th>
                             <th>Keterangan</th>
                             <th>Username</th>
+                            <th>aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -79,10 +80,16 @@
                             <?php foreach ($laporan as $item) : ?>
                             <tr>
                                 <td><?= esc($item['nama_perangkat']); ?></td>
+                                <td><?= esc($item['department']); ?></td>
                                 <td><?= esc($item['tanggal_pemeliharaan']); ?></td>
                                 <td><?= esc($item['hasil']); ?></td>
                                 <td><?= esc($item['keterangan']); ?></td>
                                  <td><?= esc($item['username']); ?>
+                                 <td>
+                                    <a href="/manajerController/cetak/<?= esc($item['id_riwayat']); ?>" class="btn btn-warning">
+                                        <i class="bi bi-printer"></i> Cetak
+                                    </a>
+                                </td>
                             </tr>
                             <?php endforeach; ?>
                         <?php else: ?>

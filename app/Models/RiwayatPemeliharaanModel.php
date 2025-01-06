@@ -25,7 +25,7 @@ class RiwayatPemeliharaanModel extends Model
      public function getLaporan($startDate = null, $endDate = null, $department = null, $year = null)
     {
         $builder = $this->db->table('riwayat_pemeliharaan');
-        $builder->select('riwayat_pemeliharaan.*, perangkat.nama_perangkat, pengguna.username AS username');
+        $builder->select('riwayat_pemeliharaan.*, perangkat.nama_perangkat, perangkat.department, pengguna.username AS username');
         $builder->join('perangkat', 'riwayat_pemeliharaan.perangkat_id = perangkat.id_perangkat', 'left');
         $builder->join('pengguna', 'riwayat_pemeliharaan.user_id = pengguna.id_user', 'left'); // JOIN dengan pengguna
 
@@ -62,4 +62,13 @@ class RiwayatPemeliharaanModel extends Model
             'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
         ];
     }
+
+    public function getLaporanById($id)
+    {
+        return $this->where('id_riwayat', $id)
+                    ->join('perangkat', 'riwayat_pemeliharaan.perangkat_id = perangkat.id_perangkat', 'left')
+                    ->join('pengguna', 'riwayat_pemeliharaan.user_id = pengguna.id_user', 'left')
+                    ->first();
+    }
+
 }

@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="<?= base_url() ?>assets/compiled/css/app.css">
     <link rel="stylesheet" href="<?= base_url() ?>assets/compiled/css/app-dark.css">
     <link rel="stylesheet" href="<?= base_url() ?>assets/compiled/css/iconly.css">
+    <!-- Include SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -88,7 +90,7 @@
                         </li>
 
                         <li class="sidebar-item">
-                            <a href="<?= site_url('/AuthController/logout') ?>" class='sidebar-link'>
+                            <a href="#" class='sidebar-link' id="logoutLink">
                                 <i class="bi bi-box-arrow-right"></i>
                                 <span>Logout</span>
                             </a>
@@ -221,6 +223,27 @@
             }
         });
 
+    </script>
+
+    <script>
+        document.getElementById('logoutLink').addEventListener('click', function(e) {
+            e.preventDefault(); // Mencegah aksi default
+            Swal.fire({
+                title: 'ingin Log-Out?',
+                text: "anda akan keluar dari sistem !",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, logout!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Redirect to logout URL if confirmed
+                    window.location.href = "<?= site_url('/AuthController/logout') ?>";
+                }
+            });
+        });
     </script>
 </body>
 

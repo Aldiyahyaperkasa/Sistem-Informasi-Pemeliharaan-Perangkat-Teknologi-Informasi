@@ -117,7 +117,7 @@
                         </li>
 
                         <li class="sidebar-item <?= isActive('AuthController') ?>">
-                            <a href="<?= site_url('/AuthController/logout') ?>" class="sidebar-link">
+                            <a href="#" class="sidebar-link" id="logoutLink">
                                 <i class="bi bi-box-arrow-right"></i>
                                 <span>Logout</span>
                             </a>
@@ -146,6 +146,27 @@
     <script src="<?= base_url() ?>assets/compiled/js/app.js"></script>
     <script src="<?= base_url() ?>assets/extensions/apexcharts/apexcharts.min.js"></script>
     <script src="<?= base_url() ?>assets/static/js/pages/dashboard.js"></script>
+
+    <script>
+        document.getElementById('logoutLink').addEventListener('click', function(e) {
+            e.preventDefault(); // Mencegah aksi default
+            Swal.fire({
+                title: 'ingin Log-Out?',
+                text: "anda akan keluar dari sistem !",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, logout!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Redirect to logout URL if confirmed
+                    window.location.href = "<?= site_url('/AuthController/logout') ?>";
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

@@ -65,10 +65,12 @@
                     <thead>
                         <tr>
                             <th style="width: 15%;">Nama Perangkat</th>
+            <th style="width: 10%;">Department</th>  <!-- Add department column -->
                             <th style="width: 10%;">Tanggal Pemeliharaan</th>
-                            <th style="width: 25%;">Hasil</th>
+                            <th style="width: 15%;">Hasil</th>
                             <th style="width: 25%;">Keterangan</th>
                             <th style="width: 10%;">Teknisi</th>
+                            <th style="width: 10%;">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -76,10 +78,16 @@
                             <?php foreach ($laporan as $item) : ?>
                             <tr>
                                 <td><?= esc($item['nama_perangkat']); ?></td>
+                <td><?= esc($item['department']); ?></td>  <!-- Display department -->
                                 <td><?= esc($item['tanggal_pemeliharaan']); ?></td>
                                 <td><?= esc($item['hasil']); ?></td>
                                 <td><?= esc($item['keterangan']); ?></td>
                                 <td><?= esc($item['username']); ?></td>
+                                <td>
+                                    <a href="/laporanController/cetak/<?= esc($item['id_riwayat']); ?>" class="btn btn-warning">
+                                        <i class="bi bi-printer"></i> Cetak
+                                    </a>
+                                </td>
                             </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
